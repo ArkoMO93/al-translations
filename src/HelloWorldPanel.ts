@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getNonce } from "./getNonce";
+import { getNonce, getGenericHTML } from "./GenericFunctions";
 
 export class HelloWorldPanel {
   /**
@@ -123,43 +123,6 @@ export class HelloWorldPanel {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {    
-    // Local path to css styles in media folder
-    const stylesResetUri = webview.asWebviewUri(vscode.Uri.joinPath(
-      this._extensionUri,
-      "media",
-      "reset.css"
-    ));
-    const stylesMainUri = webview.asWebviewUri(vscode.Uri.joinPath(
-      this._extensionUri,
-      "media",
-      "vscode.css"
-    ));
-
-    // Svelte compiled elements
-    const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "out", "compiled/HelloWorld.js")
-    );
-    const cssUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "out", "compiled/HelloWorld.css")
-    );
-
-    // Use a nonce to only allow specific scripts to be run
-    const nonce = getNonce();
-
-    return `<!DOCTYPE html>
-			<html lang="en">
-			<head>
-				<meta charset="UTF-8">
-                <meta http-equiv="Content-Security-Policy" content="img-src https: data:; style-src 'unsafe-inline' ${ webview.cspSource }; script-src 'nonce-${nonce}';">
-				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<link href="${stylesResetUri}" rel="stylesheet">
-				<link href="${stylesMainUri}" rel="stylesheet">
-                <link href="${cssUri}" rel="stylesheet">
-                <script nonce="${nonce}"> </script>
-			</head>
-      <body>
-			</body>
-      <script nonce="${nonce}" src="${scriptUri}"></script>
-		</html>`;
+    return getGenericHTML(webview,this._extensionUri,"HelloWorld");
   }
 }

@@ -10,10 +10,31 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:al-translations.helloWorld"
+		"onCommand:al-translations.helloWorld",
+		"onView:al-translations-sidebar"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+			  {
+				"id": "al-translations-sidebar-view",
+				"title": "al-translations",
+				"icon": "media/icon.svg"
+			  }
+			]
+		  },
+		  "views": {
+			"al-translations-sidebar-view": [
+			  {
+				"type": "webview",
+				"id": "al-translations-sidebar",
+				"name": "al-translations",
+				"icon": "media/icon.svg",
+				"contextualTitle": "al-translations"
+			  }
+			]
+		  },
 		"commands": [
 			{
 				"command": "al-translations.helloWorld",
