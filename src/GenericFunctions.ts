@@ -43,7 +43,9 @@ function getGenericHTML(_webview: vscode.Webview, _extensionUri: vscode.Uri , _c
 						<link href="${stylesResetUri}" rel="stylesheet">
 						<link href="${stylesMainUri}" rel="stylesheet">
 						<link href="${cssUri}" rel="stylesheet">
-						<script nonce="${nonce}"> </script>
+						<script nonce="${nonce}">
+							tsvscode = acquireVsCodeApi();
+						</script>
 					</head>
 					<body>
 					</body>

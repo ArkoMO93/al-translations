@@ -5,7 +5,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
   _doc?: vscode.TextDocument;
 
-  constructor(private readonly _extensionUri: vscode.Uri) {}
+  constructor(private readonly _extensionUri: vscode.Uri) { }
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
     this._view = webviewView;
@@ -25,6 +25,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (!data.value) {
             return;
           }
+          this._view?.webview.postMessage({
+            type: "showInfos",
+            xliffNote: "Table AltAvail. Detail Buffer - Field Balance - Property Caption"
+          });
           vscode.window.showInformationMessage(data.value);
           break;
         }
@@ -43,7 +47,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     this._view = panel;
   }
 
-  private _getHtmlForWebview(webview: vscode.Webview) {    
-    return getGenericHTML(webview,this._extensionUri,"Sidebar");
+  private _getHtmlForWebview(webview: vscode.Webview) {
+    return getGenericHTML(webview, this._extensionUri, "Sidebar");
   }
 }
