@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getNonce, getGenericHTML } from "./GenericFunctions";
+import { getGenericHTML } from "./GenericFunctions";
 
 export class HelloWorldPanel {
   /**

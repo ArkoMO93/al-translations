@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import { getGenericHTML, getNonce } from "./GenericFunctions";
+import { getGenericHTML } from "./GenericFunctions";
+import { HelloWorldPanel } from "./HelloWorldPanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -25,6 +26,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (!data.value) {
             return;
           }
+          HelloWorldPanel.createOrShow(this._extensionUri);
           this._view?.webview.postMessage({
             type: "showInfos",
             xliffNote: "Table AltAvail. Detail Buffer - Field Balance - Property Caption"
@@ -38,6 +40,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           }
           vscode.window.showErrorMessage(data.value);
           break;
+        }
+        case "getFilesList": {
+          this._view?.webview.postMessage({
+            type: "showFileList",
+            fileList: [{fileName:"File numero 1",fileEnabled:true},{fileName:"File numero 2",fileEnabled:true}]
+          });
         }
       }
     });
