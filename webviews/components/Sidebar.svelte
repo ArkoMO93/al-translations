@@ -5,28 +5,23 @@
 
     /* First Setup */
     tsvscode.postMessage({
-        type: "getFilesList"
+        type: "getFilesList",
     });
 
     /* Variables */
     var showWelcome = true;
     var xliffNote = "";
-    var fileList : {fileName: string, fileEnabled: boolean}[];
+    var fileList: { fileName: string; fileEnabled: boolean }[];
 
     /* Functions */
-    function sendMessage() {
-        tsvscode.postMessage({
-            type: "onInfo",
-            value: "Test",
-        });
-    }
-
     function manageShowInfos(_xliffNote: string) {
         showWelcome = false;
         xliffNote = _xliffNote;
     }
 
-    function manageShowFileList(_fileList:{fileName: string, fileEnabled: boolean}[]) {
+    function manageShowFileList(
+        _fileList: { fileName: string; fileEnabled: boolean }[]
+    ) {
         fileList = _fileList;
     }
 
@@ -51,8 +46,6 @@
 {:else}
     <InfoSideBar {xliffNote} />
 {/if}
-
-<button on:click={sendMessage}>Send Message</button>
 
 <style>
 </style>

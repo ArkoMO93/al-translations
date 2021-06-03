@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import { getGenericHTML } from "./GenericFunctions";
+import { getGenericHTML } from "./Functions/GenericFunctions";
+import { getFilesList } from "./Functions/SidebarFunctions";
 import { HelloWorldPanel } from "./HelloWorldPanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
@@ -42,10 +43,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "getFilesList": {
-          this._view?.webview.postMessage({
-            type: "showFileList",
-            fileList: [{fileName:"File numero 1",fileEnabled:true},{fileName:"File numero 2",fileEnabled:true}]
-          });
+          if (this._view) {
+            getFilesList(this._view.webview);
+          }
+          break;
         }
       }
     });

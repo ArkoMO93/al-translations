@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getGenericHTML } from "./GenericFunctions";
+import { getGenericHTML } from "./Functions/GenericFunctions";
 
 export class HelloWorldPanel {
   /**
@@ -122,7 +122,7 @@ export class HelloWorldPanel {
     });
   }
 
-  private _getHtmlForWebview(webview: vscode.Webview) {    
-    return getGenericHTML(webview,this._extensionUri,"HelloWorld");
+  private _getHtmlForWebview(webview: vscode.Webview) {
+    return getGenericHTML(webview, this._extensionUri, "HelloWorld");
   }
 }
