@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { getGenericHTML } from "./Functions/GenericFunctions";
 import { getFilesList } from "./Functions/SidebarFunctions";
-import { HelloWorldPanel } from "./HelloWorldPanel";
+import { TranslatePanel } from "./TranlatePanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -27,7 +27,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (!data.value) {
             return;
           }
-          HelloWorldPanel.createOrShow(this._extensionUri);
+          TranslatePanel.createOrShow(this._extensionUri);
           this._view?.webview.postMessage({
             type: "showInfos",
             xliffNote: "Table AltAvail. Detail Buffer - Field Balance - Property Caption"

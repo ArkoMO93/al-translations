@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import type { FileConfig } from "../globals";
     import InfoSideBar from "./InfoSideBar.svelte";
     import WelcomeSidebar from "./WelcomeSidebar.svelte";
 
@@ -11,7 +12,7 @@
     /* Variables */
     var showWelcome = true;
     var xliffNote = "";
-    var fileList: { fileName: string; fileEnabled: boolean }[];
+    var fileList: FileConfig[];
 
     /* Functions */
     function manageShowInfos(_xliffNote: string) {
@@ -19,9 +20,7 @@
         xliffNote = _xliffNote;
     }
 
-    function manageShowFileList(
-        _fileList: { fileName: string; fileEnabled: boolean }[]
-    ) {
+    function manageShowFileList(_fileList: FileConfig[]) {
         fileList = _fileList;
     }
 

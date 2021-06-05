@@ -1,5 +1,8 @@
 <script lang="ts">
-    export var fileList: { fileName: string; fileEnabled: boolean }[] = [];
+import type { FileConfig } from "../globals";
+
+
+    export var fileList: FileConfig[] = [];
 
     /* Functions */
     function sendMessage() {

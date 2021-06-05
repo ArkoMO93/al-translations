@@ -10,7 +10,6 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:al-translations.helloWorld",
 		"onView:al-translations-sidebar"
 	],
 	"main": "./dist/extension.js",
@@ -35,12 +34,7 @@
 			  }
 			]
 		  },
-		"commands": [
-			{
-				"command": "al-translations.helloWorld",
-				"title": "Hello World"
-			}
-		]
+		"commands": []
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run package",

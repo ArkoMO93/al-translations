@@ -1,13 +1,13 @@
 import * as vscode from "vscode";
 import { getGenericHTML } from "./Functions/GenericFunctions";
 
-export class HelloWorldPanel {
+export class TranslatePanel {
   /**
    * Track the currently panel. Only allow a single panel to exist at a time.
    */
-  public static currentPanel: HelloWorldPanel | undefined;
+  public static currentPanel: TranslatePanel | undefined;
 
-  public static readonly viewType = "hello-world";
+  public static readonly viewType = "translate";
 
   private readonly _panel: vscode.WebviewPanel;
   private readonly _extensionUri: vscode.Uri;
@@ -19,16 +19,16 @@ export class HelloWorldPanel {
       : undefined;
 
     // If we already have a panel, show it.
-    if (HelloWorldPanel.currentPanel) {
-      HelloWorldPanel.currentPanel._panel.reveal(column);
-      HelloWorldPanel.currentPanel._update();
+    if (TranslatePanel.currentPanel) {
+      TranslatePanel.currentPanel._panel.reveal(column);
+      TranslatePanel.currentPanel._update();
       return;
     }
 
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
-      HelloWorldPanel.viewType,
-      "hello-world",
+      TranslatePanel.viewType,
+      "translate",
       column || vscode.ViewColumn.One,
       {
         // Enable javascript in the webview
@@ -42,16 +42,16 @@ export class HelloWorldPanel {
       }
     );
 
-    HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri);
+    TranslatePanel.currentPanel = new TranslatePanel(panel, extensionUri);
   }
 
   public static kill() {
-    HelloWorldPanel.currentPanel?.dispose();
-    HelloWorldPanel.currentPanel = undefined;
+    TranslatePanel.currentPanel?.dispose();
+    TranslatePanel.currentPanel = undefined;
   }
 
   public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-    HelloWorldPanel.currentPanel = new HelloWorldPanel(panel, extensionUri);
+    TranslatePanel.currentPanel = new TranslatePanel(panel, extensionUri);
   }
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
@@ -80,7 +80,7 @@ export class HelloWorldPanel {
   }
 
   public dispose() {
-    HelloWorldPanel.currentPanel = undefined;
+    TranslatePanel.currentPanel = undefined;
 
     // Clean up our resources
     this._panel.dispose();
@@ -123,6 +123,6 @@ export class HelloWorldPanel {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {
-    return getGenericHTML(webview, this._extensionUri, "HelloWorld");
+    return getGenericHTML(webview, this._extensionUri, "Translate");
   }
 }
