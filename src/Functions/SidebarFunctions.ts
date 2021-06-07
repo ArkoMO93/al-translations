@@ -14,7 +14,7 @@ async function getFilesList(_webview: vscode.Webview) {
         let uris = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '**/*.xlf'));
         allFileUris = allFileUris.concat(uris);
         allFileUris.forEach(element => {
-            fileList.push({ fileName: element.path.replace(folder.uri.path + "/", ""), fileEnabled: true});
+            fileList.push({ fileName: element.path.replace(folder.uri.path + "/", ""), fileUri: element });
         });
     }
 
@@ -24,4 +24,9 @@ async function getFilesList(_webview: vscode.Webview) {
     });
 }
 
-export { getFilesList };
+function loadFile(_fileChoosen: FileConfig) {
+    console.log(_fileChoosen.fileName);
+
+}
+
+export { getFilesList, loadFile };

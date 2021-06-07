@@ -1,8 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import type { FileConfig } from "../globals";
-    import InfoSideBar from "./InfoSideBar.svelte";
-    import WelcomeSidebar from "./WelcomeSidebar.svelte";
 
     /* First Setup */
     tsvscode.postMessage({
@@ -10,14 +8,15 @@
     });
 
     /* Variables */
-    var showWelcome = true;
-    var xliffNote = "";
     var fileList: FileConfig[];
+    var selectedFile: FileConfig;
 
     /* Functions */
-    function manageShowInfos(_xliffNote: string) {
-        showWelcome = false;
-        xliffNote = _xliffNote;
+    function loadFile() {
+        tsvscode.postMessage({
+            type: "loadFile",
+            fileChoosen: selectedFile,
+        });
     }
 
     function manageShowFileList(_fileList: FileConfig[]) {
@@ -29,9 +28,6 @@
         window.addEventListener("message", (event) => {
             const data = event.data;
             switch (data.type) {
-                case "showInfos":
-                    manageShowInfos(data.xliffNote);
-                    break;
                 case "showFileList":
                     manageShowFileList(data.fileList);
                     break;
@@ -40,11 +36,20 @@
     });
 </script>
 
-{#if showWelcome}
-    <WelcomeSidebar {fileList} />
-{:else}
-    <InfoSideBar {xliffNote} />
-{/if}
+<h1>WELCOME TO AL TRANSLATOR</h1>
+<hr />
+<form action="">
+    <label for="files">Choose a file to translate:</label>
+
+    {#if fileList}
+        <select bind:value={selectedFile} id="files">
+            {#each fileList as singleFile}
+                <option value={singleFile}>{singleFile.fileName}</option>
+            {/each}
+        </select>
+    {/if}
+</form>
+<button on:click={loadFile}>Load File</button>
 
 <style>
 </style>

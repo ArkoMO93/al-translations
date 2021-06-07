@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { getGenericHTML } from "./Functions/GenericFunctions";
-import { getFilesList } from "./Functions/SidebarFunctions";
+import { getFilesList, loadFile } from "./Functions/SidebarFunctions";
 import { TranslatePanel } from "./TranlatePanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
@@ -27,11 +27,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (!data.value) {
             return;
           }
-          TranslatePanel.createOrShow(this._extensionUri);
-          this._view?.webview.postMessage({
-            type: "showInfos",
-            xliffNote: "Table AltAvail. Detail Buffer - Field Balance - Property Caption"
-          });
           vscode.window.showInformationMessage(data.value);
           break;
         }
@@ -45,6 +40,15 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         case "getFilesList": {
           if (this._view) {
             getFilesList(this._view.webview);
+          }
+          break;
+        }
+        case "loadFile": {
+          if (this._view) {
+            if (data.fileChoosen) {
+              loadFile(data.fileChoosen);
+            }
+            TranslatePanel.createOrShow(this._extensionUri);
           }
           break;
         }

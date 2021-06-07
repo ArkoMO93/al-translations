@@ -16,26 +16,29 @@
 	"contributes": {
 		"viewsContainers": {
 			"activitybar": [
-			  {
-				"id": "al-translations-sidebar-view",
-				"title": "al-translations",
-				"icon": "media/icon.svg"
-			  }
+				{
+					"id": "al-translations-sidebar-view",
+					"title": "al-translations",
+					"icon": "media/icon.svg"
+				}
 			]
-		  },
-		  "views": {
+		},
+		"views": {
 			"al-translations-sidebar-view": [
-			  {
-				"type": "webview",
-				"id": "al-translations-sidebar",
-				"name": "al-translations",
-				"icon": "media/icon.svg",
-				"contextualTitle": "al-translations"
-			  }
+				{
+					"type": "webview",
+					"id": "al-translations-sidebar",
+					"name": "al-translations",
+					"icon": "media/icon.svg",
+					"contextualTitle": "al-translations"
+				}
 			]
-		  },
+		},
 		"commands": []
 	},
+	"extensionDependencies": [
+		"rvanbekkum.xliff-sync"
+	],
 	"scripts": {
 		"vscode:prepublish": "npm run package",
 		"compile": "webpack",
