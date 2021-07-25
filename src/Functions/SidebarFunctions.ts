@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { FileConfig } from "../../webviews/globals";
+import { FileConfig, LanguageConfig } from "../../webviews/globals";
 
 /* Responses to Messages */
 
@@ -17,10 +17,26 @@ async function getFilesList(_webview: vscode.Webview) {
             fileList.push({ fileName: element.path.replace(folder.uri.path + "/", ""), fileUri: element });
         });
     }
+    fileList.push({fileName:"New file..."});
 
     _webview.postMessage({
         type: "showFileList",
         fileList: fileList
+    });
+}
+
+async function getLanguagesList(_webview: vscode.Webview) {
+    let languagesList : LanguageConfig[] = [
+        { languageCode: 'en-US', languageDescription: 'English (United States)'},
+        { languageCode: 'fr-FR', languageDescription: 'French (France)'},
+        { languageCode: 'de-DE', languageDescription: 'German (Germany)'},
+        { languageCode: 'it-IT', languageDescription: 'Italian (Italia)'},
+        { languageCode: 'es-ES', languageDescription: 'Spanish (Spain)'}
+    ];
+
+    _webview.postMessage({
+        type: "showLanguageList",
+        languagesList: languagesList
     });
 }
 
@@ -29,4 +45,4 @@ function loadFile(_fileChoosen: FileConfig) {
 
 }
 
-export { getFilesList, loadFile };
+export { getFilesList, getLanguagesList, loadFile };

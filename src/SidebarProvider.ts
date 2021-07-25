@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { getGenericHTML } from "./Functions/GenericFunctions";
-import { getFilesList, loadFile } from "./Functions/SidebarFunctions";
+import * as SidebarFunctions from "./Functions/SidebarFunctions";
 import { TranslatePanel } from "./TranlatePanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
@@ -39,14 +39,21 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
         case "getFilesList": {
           if (this._view) {
-            getFilesList(this._view.webview);
+            SidebarFunctions.getFilesList(this._view.webview);
+          }
+          break;
+        }
+        case "getLanguageList": {
+          if (this._view) {
+            SidebarFunctions.getLanguagesList(this._view.webview);
           }
           break;
         }
         case "loadFile": {
+          // TODO : to add a load function
           if (this._view) {
             if (data.fileChoosen) {
-              loadFile(data.fileChoosen);
+              SidebarFunctions.loadFile(data.fileChoosen);
             }
             TranslatePanel.createOrShow(this._extensionUri);
           }

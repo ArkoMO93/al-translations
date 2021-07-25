@@ -6,5 +6,10 @@ declare global {
 
 type FileConfig = {
     fileName: string,
-    fileUri: vscode.Uri
+    fileUri?: vscode.Uri
 };
+
+type LanguageConfig = {
+    languageCode: string,
+    languageDescription: string
+}

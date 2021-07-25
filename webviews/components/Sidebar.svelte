@@ -1,15 +1,21 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import type { FileConfig } from "../globals";
+    import type { FileConfig, LanguageConfig } from "../globals";
 
     /* First Setup */
     tsvscode.postMessage({
         type: "getFilesList",
     });
+    tsvscode.postMessage({
+        type: "getLanguageList"
+    });
+    // TODO : get list of languages
 
     /* Variables */
     var fileList: FileConfig[];
+    var languagesList: LanguageConfig[];
     var selectedFile: FileConfig;
+    var selectedLanguage: LanguageConfig;
 
     /* Functions */
     function loadFile() {
@@ -23,6 +29,10 @@
         fileList = _fileList;
     }
 
+    function manageShowLanguageList(_languagesList:LanguageConfig[]) {
+        languagesList = _languagesList;
+    }
+
     /* Events */
     onMount(() => {
         window.addEventListener("message", (event) => {
@@ -31,13 +41,18 @@
                 case "showFileList":
                     manageShowFileList(data.fileList);
                     break;
+                case "showLanguageList":
+                    manageShowLanguageList(data.languagesList)
+                    break;
             }
         });
     });
 </script>
 
 <h1>WELCOME TO AL TRANSLATOR</h1>
+
 <hr />
+
 <form action="">
     <label for="files">Choose a file to translate:</label>
 
@@ -48,8 +63,25 @@
             {/each}
         </select>
     {/if}
+
+    {#if selectedFile && selectedFile.fileUri == undefined}
+        <select bind:value={selectedLanguage} id="files">
+            {#each languagesList as singleLanguage}
+                <option value={singleLanguage}>{singleLanguage.languageDescription}</option>
+            {/each}
+        </select>
+    {/if}
 </form>
-<button on:click={loadFile}>Load File</button>
+
+<hr />
+
+<button on:click={loadFile}>
+    {#if selectedFile && selectedFile.fileUri == undefined}
+        Create New File
+    {:else}
+        Load File
+    {/if}
+</button>
 
 <style>
 </style>
