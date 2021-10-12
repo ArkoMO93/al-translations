@@ -3,7 +3,7 @@ import { FileConfig, LanguageConfig } from "../../webviews/globals";
 
 /* Responses to Messages */
 
-async function getFilesList(_webview: vscode.Webview) {
+export async function getFilesList(_webview: vscode.Webview) {
 
     let allFileUris: vscode.Uri[] = [];
     const folder = vscode.workspace.workspaceFolders?.[0];
@@ -25,7 +25,7 @@ async function getFilesList(_webview: vscode.Webview) {
     });
 }
 
-async function getLanguagesList(_webview: vscode.Webview) {
+export async function getLanguagesList(_webview: vscode.Webview) {
     let languagesList : LanguageConfig[] = [
         { languageCode: 'en-US', languageDescription: 'English (United States)'},
         { languageCode: 'fr-FR', languageDescription: 'French (France)'},
@@ -40,9 +40,6 @@ async function getLanguagesList(_webview: vscode.Webview) {
     });
 }
 
-function loadFile(_fileChoosen: FileConfig) {
-    console.log(_fileChoosen.fileName);
-
+export function loadFile(_fileChoosen: FileConfig, _newFileLanguage:String) {
+    console.log(_fileChoosen.fileName + " - " + _newFileLanguage);
 }
-
-export { getFilesList, getLanguagesList, loadFile };

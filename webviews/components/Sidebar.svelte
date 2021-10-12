@@ -22,15 +22,8 @@
         tsvscode.postMessage({
             type: "loadFile",
             fileChoosen: selectedFile,
+            newFileLanguage: selectedLanguage.languageCode
         });
-    }
-
-    function manageShowFileList(_fileList: FileConfig[]) {
-        fileList = _fileList;
-    }
-
-    function manageShowLanguageList(_languagesList:LanguageConfig[]) {
-        languagesList = _languagesList;
     }
 
     /* Events */
@@ -39,10 +32,10 @@
             const data = event.data;
             switch (data.type) {
                 case "showFileList":
-                    manageShowFileList(data.fileList);
+                    fileList = data.fileList;
                     break;
                 case "showLanguageList":
-                    manageShowLanguageList(data.languagesList)
+                    languagesList = data.languagesList;
                     break;
             }
         });

@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getGenericHTML } from "./Functions/GenericFunctions";
+import * as GenericFunctions from "./Functions/GenericFunctions";
 import * as SidebarFunctions from "./Functions/SidebarFunctions";
 import { TranslatePanel } from "./TranlatePanel";
 
@@ -15,7 +15,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.options = {
       // Allow scripts in the webview
       enableScripts: true,
-
       localResourceRoots: [this._extensionUri],
     };
 
@@ -53,7 +52,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           // TODO : to add a load function
           if (this._view) {
             if (data.fileChoosen) {
-              SidebarFunctions.loadFile(data.fileChoosen);
+              SidebarFunctions.loadFile(data.fileChoosen, data.newFileLanguage);
             }
             TranslatePanel.createOrShow(this._extensionUri);
           }
@@ -68,6 +67,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {
-    return getGenericHTML(webview, this._extensionUri, "Sidebar");
+    return GenericFunctions.getGenericHTML(webview, this._extensionUri, "Sidebar");
   }
 }

@@ -9,8 +9,7 @@ function getNonce() {
 	return text;
 }
 
-function getGenericHTML(_webview: vscode.Webview, _extensionUri: vscode.Uri , _compiledElementName:string) : string
-{
+export function getGenericHTML(_webview: vscode.Webview, _extensionUri: vscode.Uri , _compiledElementName:string) : string {
 	// Local path to css styles in media folder
     const stylesResetUri = _webview.asWebviewUri(vscode.Uri.joinPath(
 		_extensionUri,
@@ -52,5 +51,3 @@ function getGenericHTML(_webview: vscode.Webview, _extensionUri: vscode.Uri , _c
 					<script nonce="${nonce}" src="${scriptUri}"></script>
 		  		</html>`;
 }
-
-export {getNonce, getGenericHTML};
