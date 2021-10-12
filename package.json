@@ -36,9 +36,6 @@
 		},
 		"commands": []
 	},
-	"extensionDependencies": [
-		"rvanbekkum.xliff-sync"
-	],
 	"scripts": {
 		"vscode:prepublish": "npm run package",
 		"compile": "webpack",
