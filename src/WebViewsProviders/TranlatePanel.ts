@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getGenericHTML } from "./Functions/GenericFunctions";
+import { getGenericHTML } from "../Functions/GenericFunctions";
 
 export class TranslatePanel {
   /**

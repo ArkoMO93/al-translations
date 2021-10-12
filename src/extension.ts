@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {SidebarProvider} from './SidebarProvider';
+import {SidebarProvider} from './WebViewsProviders/SidebarProvider';
 
 export function activate(context: vscode.ExtensionContext) {
 	const sidebarProvider = new SidebarProvider(context.extensionUri);

@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
-import * as GenericFunctions from "./Functions/GenericFunctions";
-import * as SidebarFunctions from "./Functions/SidebarFunctions";
+import * as GenericFunctions from "../Functions/GenericFunctions";
+import * as SidebarFunctions from "../Functions/SidebarFunctions";
 import { TranslatePanel } from "./TranlatePanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import type { FileConfig, LanguageConfig } from "../globals";
+    import type { FileConfig, LanguageConfig } from "../../src/types";
 
     /* First Setup */
     tsvscode.postMessage({
@@ -22,7 +22,7 @@
         tsvscode.postMessage({
             type: "loadFile",
             fileChoosen: selectedFile,
-            newFileLanguage: selectedLanguage.languageCode
+            newFileLanguage: selectedLanguage? selectedLanguage.languageCode:''
         });
     }
 

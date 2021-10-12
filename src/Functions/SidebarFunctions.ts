@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { FileConfig, LanguageConfig } from "../../webviews/globals";
+import { FileConfig, LanguageConfig } from "../types";
 
 /* Responses to Messages */
 
