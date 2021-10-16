@@ -1,15 +1,13 @@
 import * as vscode from "vscode";
-import { FileConfig, LanguageConfig } from "../types";
+import { Data, FileConfig, LanguageConfig } from "../types";
 
 /* Responses to Messages */
 
 export async function getFilesList(_webview: vscode.Webview) {
-
     let allFileUris: vscode.Uri[] = [];
     const folder = vscode.workspace.workspaceFolders?.[0];
 
     let fileList: FileConfig[] = [];
-
     if (folder) {
         let uris = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '**/*.xlf'));
         allFileUris = allFileUris.concat(uris);
@@ -19,10 +17,8 @@ export async function getFilesList(_webview: vscode.Webview) {
     }
     fileList.push({fileName:"New file..."});
 
-    _webview.postMessage({
-        type: "showFileList",
-        fileList: fileList
-    });
+    const data:Data = {type: "onFileList", fileList: fileList};
+    _webview.postMessage(data);
 }
 
 export async function getLanguagesList(_webview: vscode.Webview) {
@@ -34,10 +30,8 @@ export async function getLanguagesList(_webview: vscode.Webview) {
         { languageCode: 'es-ES', languageDescription: 'Spanish (Spain)'}
     ];
 
-    _webview.postMessage({
-        type: "showLanguageList",
-        languagesList: languagesList
-    });
+    const data:Data = {type: "onLanguageList", languagesList:languagesList};
+    _webview.postMessage(data);
 }
 
 export function loadFile(_fileChoosen: FileConfig, _newFileLanguage:String) {

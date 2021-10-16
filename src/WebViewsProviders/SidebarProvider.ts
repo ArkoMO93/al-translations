@@ -1,58 +1,54 @@
 import * as vscode from "vscode";
 import * as GenericFunctions from "../Functions/GenericFunctions";
 import * as SidebarFunctions from "../Functions/SidebarFunctions";
-import { TranslatePanel } from "./TranlatePanel";
+import { Data } from "../types";
+import { TranslatePanel } from "./TranslatePanel";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
-  _view?: vscode.WebviewView;
-  _doc?: vscode.TextDocument;
+  /**
+   * Sidebar of the 
+   */
+  public _doc?: vscode.TextDocument;
+  public _view?: vscode.WebviewView;
 
   constructor(private readonly _extensionUri: vscode.Uri) { }
 
-  public resolveWebviewView(webviewView: vscode.WebviewView) {
-    this._view = webviewView;
+  public resolveWebviewView(_webviewView: vscode.WebviewView) {
+    this._view = _webviewView;
 
-    webviewView.webview.options = {
-      // Allow scripts in the webview
+    this._view.webview.options = {
       enableScripts: true,
       localResourceRoots: [this._extensionUri],
     };
 
-    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
-    webviewView.webview.onDidReceiveMessage(async (data) => {
+    this._view.webview.html = this._getHtmlForWebview(this._view.webview);
+    this._view.webview.onDidReceiveMessage(async (data:Data) => {
       switch (data.type) {
         case "onInfo": {
-          if (!data.value) {
-            return;
-          }
-          vscode.window.showInformationMessage(data.value);
+          GenericFunctions.showInfo(data.value?data.value:'');
           break;
         }
         case "onError": {
-          if (!data.value) {
-            return;
-          }
-          vscode.window.showErrorMessage(data.value);
+          GenericFunctions.showError(data.value?data.value:'');
           break;
         }
-        case "getFilesList": {
+        case "onFileList": {
           if (this._view) {
             SidebarFunctions.getFilesList(this._view.webview);
           }
           break;
         }
-        case "getLanguageList": {
+        case "onLanguageList": {
           if (this._view) {
             SidebarFunctions.getLanguagesList(this._view.webview);
           }
           break;
         }
-        case "loadFile": {
+        case "onLoadFile": {
           // TODO : to add a load function
           if (this._view) {
             if (data.fileChoosen) {
-              SidebarFunctions.loadFile(data.fileChoosen, data.newFileLanguage);
+              SidebarFunctions.loadFile(data.fileChoosen, data.newFileLanguage?data.newFileLanguage:'');
             }
             TranslatePanel.createOrShow(this._extensionUri);
           }

@@ -51,3 +51,17 @@ export function getGenericHTML(_webview: vscode.Webview, _extensionUri: vscode.U
 					<script nonce="${nonce}" src="${scriptUri}"></script>
 		  		</html>`;
 }
+
+export function showError(_value:string){
+	if (!_value) {
+		return;
+	}
+	vscode.window.showErrorMessage(_value);
+}
+
+export function showInfo(_value:string){
+	if (!_value) {
+		return;
+	}
+	vscode.window.showInformationMessage(_value);
+}

@@ -1,15 +1,12 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import type { FileConfig, LanguageConfig } from "../../src/types";
+    import type { Data, FileConfig, LanguageConfig } from "../../src/types";
 
     /* First Setup */
-    tsvscode.postMessage({
-        type: "getFilesList",
-    });
-    tsvscode.postMessage({
-        type: "getLanguageList"
-    });
-    // TODO : get list of languages
+    var data: Data = {type: "onFileList"};
+    tsvscode.postMessage(data);
+    data = { type: "onLanguageList"};
+    tsvscode.postMessage(data);
 
     /* Variables */
     var fileList: FileConfig[];
@@ -19,23 +16,24 @@
 
     /* Functions */
     function loadFile() {
-        tsvscode.postMessage({
-            type: "loadFile",
+        const data: Data = {
+            type : "onLoadFile",
             fileChoosen: selectedFile,
             newFileLanguage: selectedLanguage? selectedLanguage.languageCode:''
-        });
+        }
+        tsvscode.postMessage(data);
     }
 
     /* Events */
     onMount(() => {
         window.addEventListener("message", (event) => {
-            const data = event.data;
+            const data : Data = event.data;
             switch (data.type) {
-                case "showFileList":
-                    fileList = data.fileList;
+                case "onFileList":
+                    fileList = data.fileList?data.fileList:[];
                     break;
-                case "showLanguageList":
-                    languagesList = data.languagesList;
+                case "onLanguageList":
+                    languagesList = data.languagesList?data.languagesList:[];
                     break;
             }
         });
