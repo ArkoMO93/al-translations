@@ -40,7 +40,7 @@ export class TranslatePanel {
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
       TranslatePanel._viewType,
-      "translate",
+      "Translate",
       column || vscode.ViewColumn.One,
       {
         enableScripts: true,// Enable javascript in the webview

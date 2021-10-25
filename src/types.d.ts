@@ -5,6 +5,7 @@ type Data = {
     fileList?: FileConfig[],
     languagesList?: LanguageConfig[]
     newFileLanguage?: LanguageConfig,
+    sourceFileChoosen?: FileConfig;
     type: "onInfo" | "onError" | "onFileList" | "onLanguageList" | "onLoadFile" | "onSetup",
     value?: string,
 }

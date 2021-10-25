@@ -11,6 +11,7 @@
     /* Variables */
     var fileList: FileConfig[];
     var languagesList: LanguageConfig[];
+    var sourceFileChoosen: FileConfig;
     var fileChoosen: FileConfig;
     var newFileLanguage: LanguageConfig;
 
@@ -18,6 +19,7 @@
     function loadFile() {
         const data: Data = {
             type : "onLoadFile",
+            sourceFileChoosen: sourceFileChoosen,
             fileChoosen: fileChoosen,
             newFileLanguage: newFileLanguage
         }
@@ -53,11 +55,21 @@
 
 <h1>WELCOME TO AL TRANSLATOR</h1>
 
-<hr />
-
 <form action="">
-    <label for="files">Choose a file to translate:</label>
+    <hr />
+    <label for="sourceFiles">Choose a source file for the translation:</label>
+    <br>
+    {#if fileList}
+        <select bind:value={sourceFileChoosen} id="sourceFiles">
+            {#each fileList as singleFile}
+                <option value={singleFile}>{singleFile.fileName}</option>
+            {/each}
+        </select>
+    {/if}
 
+    <hr />
+    <label for="files">Choose a file to translate:</label>
+    <br>
     {#if fileList}
         <select bind:value={fileChoosen} id="files">
             {#each fileList as singleFile}
@@ -73,9 +85,8 @@
             {/each}
         </select>
     {/if}
+    <hr />
 </form>
-
-<hr />
 
 <button on:click={loadFile}>
     {#if fileChoosen && fileChoosen.fileUri == undefined}
@@ -85,5 +96,17 @@
     {/if}
 </button>
 
+<div class="footer">
+    made by Marco Olivieri
+</div>
+
 <style>
+    .footer{
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        color: rgb(100, 100, 100);
+        text-align: right;
+    }
 </style>
