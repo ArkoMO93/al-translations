@@ -4,61 +4,73 @@ import { Data } from "../types";
 
 export class TranslatePanel {
   /**
-   * Track the currently panel. Only single panel allowed to exist at a time.
+   * Track the main panel with the table for the translations
    */
   private readonly _panel: vscode.WebviewPanel;
   private readonly _extensionUri: vscode.Uri;
   private _disposables: vscode.Disposable[] = [];
-  public static currentPanel: TranslatePanel | undefined;
-  public static readonly viewType = "translate";
+  public static _currentPanel: TranslatePanel | undefined;
+  public static readonly _viewType = "translate";
+
+  private _test?:string;
 
   private constructor(_panel: vscode.WebviewPanel, _extensionUri: vscode.Uri) {
+    console.log("TranslatePanel - Constructor"); // TEST : Log
+
     this._panel = _panel;
     this._extensionUri = _extensionUri;
     this._update();
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
   }
 
-  public static createOrShow(extensionUri: vscode.Uri) {
+  public static createOrShow(_extensionUri: vscode.Uri) {
+    console.log("TranslatePanel - CreateOrShow"); // TEST : Log
+
     const column = vscode.window.activeTextEditor
       ? vscode.window.activeTextEditor.viewColumn
       : undefined;
 
     // If we already have a panel, show it.
-    if (TranslatePanel.currentPanel) {
-      TranslatePanel.currentPanel._panel.reveal(column);
-      TranslatePanel.currentPanel._update();
+    if (TranslatePanel._currentPanel) {
+      TranslatePanel._currentPanel._panel.reveal(column);
+      TranslatePanel._currentPanel._update();
       return;
     }
 
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
-      TranslatePanel.viewType,
+      TranslatePanel._viewType,
       "translate",
       column || vscode.ViewColumn.One,
       {
         enableScripts: true,// Enable javascript in the webview
         localResourceRoots: [
-          vscode.Uri.joinPath(extensionUri, "media"),
-          vscode.Uri.joinPath(extensionUri, "out/compiled"),
+          vscode.Uri.joinPath(_extensionUri, "media"),
+          vscode.Uri.joinPath(_extensionUri, "out/compiled"),
         ],// And restrict the webview to only loading content from our extension's `media` directory.
       }
     );
 
-    TranslatePanel.currentPanel = new TranslatePanel(panel, extensionUri);
+    TranslatePanel._currentPanel = new TranslatePanel(panel, _extensionUri);
   }
 
   public static kill() {
-    TranslatePanel.currentPanel?.dispose();
-    TranslatePanel.currentPanel = undefined;
+    console.log("TranslatePanel - Kill"); // TEST : Log
+
+    TranslatePanel._currentPanel?.dispose();
+    TranslatePanel._currentPanel = undefined;
   }
 
-  public static revive(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
-    TranslatePanel.currentPanel = new TranslatePanel(panel, extensionUri);
+  public static revive(_panel: vscode.WebviewPanel, _extensionUri: vscode.Uri) {
+    console.log("TranslatePanel - Revive"); // TEST : Log
+
+    TranslatePanel._currentPanel = new TranslatePanel(_panel, _extensionUri);
   }
 
   public dispose() {
-    TranslatePanel.currentPanel = undefined;
+    console.log("TranslatePanel - Dispose"); // TEST : Log
+
+    TranslatePanel._currentPanel = undefined;
 
     // Clean up our resources
     this._panel.dispose();
@@ -72,7 +84,9 @@ export class TranslatePanel {
   }
 
   private async _update() {
-    this._panel.webview.html = this._getHtmlForWebview(this._panel.webview);
+    console.log("TranslatePanel - Update"); // TEST : Log
+    
+    this._panel.webview.html = GenericFunctions.getGenericHTML(this._panel.webview, this._extensionUri, "Translate");
     this._panel.webview.onDidReceiveMessage(async (data : Data) => {
       switch (data.type) {
         case "onInfo": {
@@ -85,9 +99,5 @@ export class TranslatePanel {
         }
       }
     });
-  }
-
-  private _getHtmlForWebview(webview: vscode.Webview) {
-    return GenericFunctions.getGenericHTML(webview, this._extensionUri, "Translate");
   }
 }

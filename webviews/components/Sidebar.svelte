@@ -11,15 +11,15 @@
     /* Variables */
     var fileList: FileConfig[];
     var languagesList: LanguageConfig[];
-    var selectedFile: FileConfig;
-    var selectedLanguage: LanguageConfig;
+    var fileChoosen: FileConfig;
+    var newFileLanguage: LanguageConfig;
 
     /* Functions */
     function loadFile() {
         const data: Data = {
             type : "onLoadFile",
-            fileChoosen: selectedFile,
-            newFileLanguage: selectedLanguage? selectedLanguage.languageCode:''
+            fileChoosen: fileChoosen,
+            newFileLanguage: newFileLanguage
         }
         tsvscode.postMessage(data);
     }
@@ -35,6 +35,17 @@
                 case "onLanguageList":
                     languagesList = data.languagesList?data.languagesList:[];
                     break;
+                case "onSetup":
+                    console.log('##onsetup');
+                    if(data.fileChoosen){
+                        fileChoosen = data.fileChoosen;
+                    console.log('##file');
+                    }
+                    if(data.newFileLanguage){
+                        newFileLanguage = data.newFileLanguage;
+                    console.log('##lang');
+                    }
+                    break;
             }
         });
     });
@@ -48,15 +59,15 @@
     <label for="files">Choose a file to translate:</label>
 
     {#if fileList}
-        <select bind:value={selectedFile} id="files">
+        <select bind:value={fileChoosen} id="files">
             {#each fileList as singleFile}
                 <option value={singleFile}>{singleFile.fileName}</option>
             {/each}
         </select>
     {/if}
 
-    {#if selectedFile && selectedFile.fileUri == undefined}
-        <select bind:value={selectedLanguage} id="files">
+    {#if fileChoosen && fileChoosen.fileUri == undefined}
+        <select bind:value={newFileLanguage} id="files">
             {#each languagesList as singleLanguage}
                 <option value={singleLanguage}>{singleLanguage.languageDescription}</option>
             {/each}
@@ -67,7 +78,7 @@
 <hr />
 
 <button on:click={loadFile}>
-    {#if selectedFile && selectedFile.fileUri == undefined}
+    {#if fileChoosen && fileChoosen.fileUri == undefined}
         Create New File
     {:else}
         Load File

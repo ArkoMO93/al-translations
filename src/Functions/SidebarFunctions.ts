@@ -33,7 +33,3 @@ export async function getLanguagesList(_webview: vscode.Webview) {
     const data:Data = {type: "onLanguageList", languagesList:languagesList};
     _webview.postMessage(data);
 }
-
-export function loadFile(_fileChoosen: FileConfig, _newFileLanguage:String) {
-    console.log(_fileChoosen.fileName + " - " + _newFileLanguage);
-}

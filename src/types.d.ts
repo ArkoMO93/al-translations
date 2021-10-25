@@ -4,8 +4,8 @@ type Data = {
     fileChoosen?: FileConfig,
     fileList?: FileConfig[],
     languagesList?: LanguageConfig[]
-    newFileLanguage?: string,
-    type: "onInfo" | "onError" | "onFileList" | "onLanguageList" | "onLoadFile",
+    newFileLanguage?: LanguageConfig,
+    type: "onInfo" | "onError" | "onFileList" | "onLanguageList" | "onLoadFile" | "onSetup",
     value?: string,
 }
 
