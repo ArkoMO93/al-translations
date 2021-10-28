@@ -6,8 +6,8 @@ type Xliff = {
     "$": {
         version: string;
         xmlns: string;
-        "_xmlns:xsi": string;
-        "_xsi:schemaLocation": string;
+        "xmlns:xsi": string;
+        "xsi:schemaLocation": string;
     }
     file: FileInfo[];
 }
@@ -46,8 +46,10 @@ type TransUnit = {
 }
 
 type Note = {
-    _from: string;
-    _annotates: string;
-    _priority: string;
-    __text ? : string;
+    "$": {
+        from: string;
+        annotates: string;
+        priority: string;
+    }
+    _ ? : string;
 }
