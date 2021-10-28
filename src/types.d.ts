@@ -5,10 +5,12 @@ type Data = {
     fileList?: FileConfig[],
     languagesList?: LanguageConfig[]
     newFileLanguage?: LanguageConfig,
-    sourceFileChoosen?: FileConfig;
-    type: "onInfo" | "onError" | "onFileList" | "onLanguageList" | "onLoadFile" | "onSetup",
+    sourceFileChoosen?: FileConfig,
+    type: DataType,
     value?: string,
 }
+
+type DataType = "onInfo" | "onError" | "onFileList" | "onLanguageList" | "onLoadFile" | "onSetup";
 
 type FileConfig = {
     fileName: string,
