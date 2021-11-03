@@ -1,8 +1,9 @@
 import * as vscode from "vscode";
 import { Data, FileConfig, LanguageConfig } from "../types";
 
-/* Responses to Messages */
-
+/** Send responses to webview with the file list
+ * @param _webview webview to wich send the message
+ */
 export async function getFilesList(_webview: vscode.Webview) {
     let allFileUris: vscode.Uri[] = [];
     const folder = vscode.workspace.workspaceFolders?.[0];
@@ -12,7 +13,7 @@ export async function getFilesList(_webview: vscode.Webview) {
         let uris = await vscode.workspace.findFiles(new vscode.RelativePattern(folder, '**/*.xlf'));
         allFileUris = allFileUris.concat(uris);
         allFileUris.forEach(element => {
-            fileList.push({ fileName: element.path.replace(folder.uri.path + "/", ""), fileUri: element });
+            fileList.push({ fileName: element.path.replace(folder.uri.path + "/", ""), filePath: element.path });
         });
     }
     fileList.push({fileName:"New file..."});
@@ -21,6 +22,9 @@ export async function getFilesList(_webview: vscode.Webview) {
     _webview.postMessage(data);
 }
 
+/** Send responses to webview with the language list
+ * @param _webview webview to wich send the message
+ */
 export async function getLanguagesList(_webview: vscode.Webview) {
     let languagesList : LanguageConfig[] = [
         { languageCode: 'en-US', languageDescription: 'English (United States)'},

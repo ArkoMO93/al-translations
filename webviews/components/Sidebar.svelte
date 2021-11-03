@@ -78,7 +78,7 @@
         </select>
     {/if}
 
-    {#if fileChoosen && fileChoosen.fileUri == undefined}
+    {#if fileChoosen && fileChoosen.filePath == undefined}
         <select bind:value={newFileLanguage} id="files">
             {#each languagesList as singleLanguage}
                 <option value={singleLanguage}>{singleLanguage.languageDescription}</option>
@@ -89,7 +89,7 @@
 </form>
 
 <button on:click={loadFile}>
-    {#if fileChoosen && fileChoosen.fileUri == undefined}
+    {#if fileChoosen && fileChoosen.filePath == undefined}
         Create New File
     {:else}
         Load File

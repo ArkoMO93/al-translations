@@ -4,10 +4,10 @@ import * as SidebarFunctions from "../Functions/SidebarFunctions";
 import { Data, FileConfig, LanguageConfig } from "../types";
 import { TranslatePanel } from "./TranslatePanel";
 
+/**
+ * Sidebar of the extension
+ */
 export class SidebarProvider implements vscode.WebviewViewProvider {
-  /**
-   * Sidebar of the extension
-   */
   public _view?: vscode.WebviewView;
 
   constructor(private readonly _extensionUri: vscode.Uri) { }
@@ -45,10 +45,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "onLoadFile": {
-          // TODO : to add a load function
           if (this._view) {
-            this.loadFile(data.sourceFileChoosen,data.fileChoosen, data.newFileLanguage);
-            TranslatePanel.createOrShow(this._extensionUri);
+            TranslatePanel.createOrShow(this._extensionUri,data.sourceFileChoosen,data.fileChoosen, data.newFileLanguage);
           }
           break;
         }
@@ -60,19 +58,5 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     console.log("SidebarProvider - Revive"); // TEST : Log
 
     this._view = _panel;
-  }
-
-  private loadFile(_sourceFileChoosen?:FileConfig, _fileChosen?: FileConfig, _newFileLanguage?: LanguageConfig){
-    console.log("SidebarProvider - LoadFile"); // TEST : Log
-    if(_sourceFileChoosen){
-      console.log("sourcefilechoosen" + _sourceFileChoosen.fileName);
-    }
-    if(_fileChosen){
-      console.log("filechosen " + _fileChosen.fileName);
-    }
-    if(_newFileLanguage){
-      console.log("newfilename " + _newFileLanguage.languageCode);
-    }
-    console.log("file loaded");
   }
 }

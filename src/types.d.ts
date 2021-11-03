@@ -14,7 +14,7 @@ type DataType = "onInfo" | "onError" | "onFileList" | "onLanguageList" | "onLoad
 
 type FileConfig = {
     fileName: string,
-    fileUri?: vscode.Uri
+    filePath?: string
 };
 
 type LanguageConfig = {
