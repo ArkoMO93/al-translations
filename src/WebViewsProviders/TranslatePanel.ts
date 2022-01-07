@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import * as GenericFunctions from "../Functions/GenericFunctions";
 import * as xml2js from 'xml2js';
 import { Data, FileConfig, LanguageConfig } from "../types";
+import { Translation } from "../xliff-types";
 
 /**
  * Track the main panel with the table for the translations
@@ -14,7 +15,6 @@ export class TranslatePanel {
   private readonly _newFileLanguage?: LanguageConfig;
   public static _currentPanel: TranslatePanel | undefined; // Singleton class
   private _disposables: vscode.Disposable[] = [];
-  private _sourceFileXliff?:Translation;
 
   private constructor(_panel: vscode.WebviewPanel, _extensionUri: vscode.Uri, _sourceFileChoosen?:FileConfig, _fileChosen?: FileConfig, _newFileLanguage?: LanguageConfig) {
     console.log("TranslatePanel - Constructor"); // TEST : Log
@@ -26,7 +26,23 @@ export class TranslatePanel {
     this._newFileLanguage = _newFileLanguage;
 
     // TODO : Complete the file load
-    this.loadFile();
+    vscode.window.withProgress({location : vscode.ProgressLocation.Notification,cancellable:true,title:"Loading File..."},
+      (progress,token) => {
+        token.onCancellationRequested(() => {
+          GenericFunctions.showInfo("Cancelled");
+        });
+        progress.report({increment: 0});
+        this.loadFile();
+        progress.report({increment: 50});
+
+        const p = new Promise<void>(resolve => {
+          setTimeout(() => {
+            resolve();
+          }, 5000);
+        });
+
+        return p;
+    });
     
     this.update();
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
@@ -86,14 +102,13 @@ export class TranslatePanel {
     TranslatePanel._currentPanel = undefined;
   }
 
-  private async loadFile(){
+  private loadFile(){
     if(this._sourceFileChoosen){
       if(this._sourceFileChoosen.filePath){
         const sourceFileUri = vscode.Uri.file(this._sourceFileChoosen.filePath);
         vscode.workspace.openTextDocument(sourceFileUri).then((textDocument) => {
           var parser = new xml2js.Parser();          
           parser.parseString(textDocument.getText(),(err:any,translation:Translation) =>{
-            this._sourceFileXliff = translation;
             // TODO : Complete the file reading
           });
         },(error) => {
@@ -101,14 +116,6 @@ export class TranslatePanel {
         });
       }
     }
-  }
-
-  private async readFile(document:any){
-    console.log("document");
-    console.log(document);
-    
-    console.log("document.getText() ->" + document.getText());
-    
   }
 
   public static revive(_panel: vscode.WebviewPanel, _extensionUri: vscode.Uri) {

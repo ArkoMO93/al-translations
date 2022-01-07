@@ -1,3 +1,5 @@
+import * as vscode from 'vscode';
+
 type Translation = {
     xliff: Xliff;
 }

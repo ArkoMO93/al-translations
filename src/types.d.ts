@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { Translation } from './xliff-types';
 
 type Data = {
     fileChoosen?: FileConfig,
@@ -6,6 +7,7 @@ type Data = {
     languagesList?: LanguageConfig[]
     newFileLanguage?: LanguageConfig,
     sourceFileChoosen?: FileConfig,
+    sourceFileTranslation?: Translation,
     type: DataType,
     value?: string,
 }

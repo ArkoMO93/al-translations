@@ -1,6 +1,14 @@
 import * as vscode from "vscode";
 
 /**
+ * Catch a generic Error to provide a legible error for the user
+ * @param error the error to catch
+ */
+export function catchError(_error:any){
+	showError(_error.message?_error.message:_error);
+}
+
+/**
  * Returns a generic html for the webview providers
  * @param _webview webview to start for the html making
  * @param _extensionUri Uri of the extension where search for the files
