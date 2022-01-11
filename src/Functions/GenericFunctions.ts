@@ -19,6 +19,8 @@ export function getGenericHTML(_webview: vscode.Webview, _extensionUri: vscode.U
 	// Local path to css styles in media folder
     const stylesResetUri = _webview.asWebviewUri(vscode.Uri.joinPath(_extensionUri,"media","reset.css"));
 	const stylesMainUri = _webview.asWebviewUri(vscode.Uri.joinPath(_extensionUri,"media","vscode.css"));
+	const stylesBootstrap = _webview.asWebviewUri(vscode.Uri.joinPath(_extensionUri,"media","bootstrap.min.css"));
+	const scriptBootstrap = _webview.asWebviewUri(vscode.Uri.joinPath(_extensionUri,"media","bootstrap.bundle.min.js"));
   
 	// Svelte compiled elements
 	const scriptUri = _webview.asWebviewUri(vscode.Uri.joinPath(_extensionUri, "out", "compiled", _compiledElementName + ".js"));
@@ -33,6 +35,7 @@ export function getGenericHTML(_webview: vscode.Webview, _extensionUri: vscode.U
 					<meta charset="UTF-8">
 					<meta http-equiv="Content-Security-Policy" content="img-src https: data:; style-src 'unsafe-inline' ${ _webview.cspSource }; script-src 'nonce-${nonce}';">
 					<meta name="viewport" content="width=device-width, initial-scale=1.0">
+					<link href="${stylesBootstrap}" rel="stylesheet" integrity=${"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"} crossorigin="anonymous">
 					<link href="${stylesResetUri}" rel="stylesheet">
 					<link href="${stylesMainUri}" rel="stylesheet">
 					<link href="${cssUri}" rel="stylesheet">
@@ -43,6 +46,7 @@ export function getGenericHTML(_webview: vscode.Webview, _extensionUri: vscode.U
 				<body>
 				</body>
 				<script nonce="${nonce}" src="${scriptUri}"></script>
+				<script nonce="${nonce}" src="${scriptBootstrap}" integrity=${"sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"} crossorigin="anonymous"></script>
 			</html>`;
 }
 

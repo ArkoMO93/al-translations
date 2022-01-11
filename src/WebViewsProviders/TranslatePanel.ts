@@ -26,23 +26,23 @@ export class TranslatePanel {
     this._newFileLanguage = _newFileLanguage;
 
     // TODO : Complete the file load
-    vscode.window.withProgress({location : vscode.ProgressLocation.Notification,cancellable:true,title:"Loading File..."},
-      (progress,token) => {
-        token.onCancellationRequested(() => {
-          GenericFunctions.showInfo("Cancelled");
-        });
-        progress.report({increment: 0});
-        this.loadFile();
-        progress.report({increment: 50});
+    // vscode.window.withProgress({location : vscode.ProgressLocation.Notification,cancellable:true,title:"Loading File..."},
+    //   (progress,token) => {
+    //     token.onCancellationRequested(() => {
+    //       GenericFunctions.showInfo("Cancelled");
+    //     });
+    //     progress.report({increment: 0});
+    //     this.loadFile();
+    //     progress.report({increment: 50});
 
-        const p = new Promise<void>(resolve => {
-          setTimeout(() => {
-            resolve();
-          }, 5000);
-        });
+    //     const p = new Promise<void>(resolve => {
+    //       setTimeout(() => {
+    //         resolve();
+    //       }, 5000);
+    //     });
 
-        return p;
-    });
+    //     return p;
+    // });
     
     this.update();
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);

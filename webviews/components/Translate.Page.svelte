@@ -1,10 +1,14 @@
 <script lang="ts">
-	import type { Data } from "../../src/types";
-	import type { Translation } from "../../src/xliff-types";
-	import { onMount } from "svelte";
-	import SvelteTable from "./SvelteTable.svelte";
+    import Icon from "./Icon.svelte";
+    import { onMount } from "svelte";
+    import Table from "./Table.svelte";
+    import type { SimpleTransUnit } from "../sveltetable-types";
+    import type { Data } from "../../src/types";
 
-	/* Events */
+    let data:SimpleTransUnit[] = generateData();
+    let editedData: SimpleTransUnit[] = [];
+
+    //#region events
     onMount(() => {
 		window.addEventListener("message", (event) => {
 			const data : Data = event.data;
@@ -15,185 +19,124 @@
 			}
 		});
 	});
-	
-	const rows = [
-	{ id: 1, first_name: "Marilyn", last_name: "Monroe", gender: "female" },
-	{ id: 2, first_name: "Abraham", last_name: "Lincoln", gender: "male" },
-	{ id: 3, first_name: "Mother", last_name: "Teresa", gender: "female" },
-	{ id: 4, first_name: "John F.", last_name: "Kennedy", gender: "male" },
-	{
-		id: 5,
-		first_name: "Martin Luther",
-		last_name: "King",
-		gender: "male",
-	},
-	{ id: 6, first_name: "Nelson", last_name: "Mandela", gender: "male" },
-	{
-		id: 7,
-		first_name: "Winston",
-		last_name: "Churchill",
-		gender: "male",
-	},
-	{ id: 8, first_name: "George", last_name: "Soros", gender: "male" },
-	{ id: 9, first_name: "Bill", last_name: "Gates", gender: "male" },
-	{ id: 10, first_name: "Muhammad", last_name: "Ali", gender: "male" },
-	{ id: 11, first_name: "Mahatma", last_name: "Gandhi", gender: "male" },
-	{
-		id: 12,
-		first_name: "Margaret",
-		last_name: "Thatcher",
-		gender: "female",
-	},
-	{
-		id: 13,
-		first_name: "Christopher",
-		last_name: "Columbus",
-		gender: "male",
-	},
-	{ id: 14, first_name: "Charles", last_name: "Darwin", gender: "male" },
-	{ id: 15, first_name: "Elvis", last_name: "Presley", gender: "male" },
-	{ id: 16, first_name: "Albert", last_name: "Einstein", gender: "male" },
-	{ id: 17, first_name: "Paul", last_name: "McCartney", gender: "male" },
-	{
-		id: 18,
-		first_name: "Queen",
-		last_name: "Victoria",
-		gender: "female",
-	},
-	{ id: 19, first_name: "Pope", last_name: "Francis", gender: "male" },
-	{ id: 20, first_name: "Mother", last_name: "Teresa", gender: "female" },
-	{ id: 21, first_name: "John F.", last_name: "Kennedy", gender: "male" },
-	{
-		id: 22,
-		first_name: "Martin Luther",
-		last_name: "King",
-		gender: "male",
-	},
-	{ id: 23, first_name: "Nelson", last_name: "Mandela", gender: "male" },
-	{
-		id: 24,
-		first_name: "Winston",
-		last_name: "Churchill",
-		gender: "male",
-	},
-	{ id: 25, first_name: "George", last_name: "Soros", gender: "male" },
-	{ id: 26, first_name: "Bill", last_name: "Gates", gender: "male" },
-	{ id: 27, first_name: "Muhammad", last_name: "Ali", gender: "male" },
-	{ id: 28, first_name: "Mahatma", last_name: "Gandhi", gender: "male" },
-	{
-		id: 29,
-		first_name: "Margaret",
-		last_name: "Thatcher",
-		gender: "female",
-	},
-	{
-		id: 30,
-		first_name: "Christopher",
-		last_name: "Columbus",
-		gender: "male",
-	},
-	{ id: 31, first_name: "Charles", last_name: "Darwin", gender: "male" },
-	{ id: 32, first_name: "Elvis", last_name: "Presley", gender: "male" },
-	{ id: 33, first_name: "Albert", last_name: "Einstein", gender: "male" },
-	{ id: 34, first_name: "Paul", last_name: "McCartney", gender: "male" },
-	{
-		id: 35,
-		first_name: "Queen",
-		last_name: "Victoria",
-		gender: "female",
-	},
-	{ id: 36, first_name: "Pope", last_name: "Francis", gender: "male" },
-	{ id: 37, first_name: "Paul", last_name: "McCartney", gender: "male" },
-	{
-		id: 38,
-		first_name: "Queen",
-		last_name: "Victoria",
-		gender: "female",
-	},
-	{ id: 39, first_name: "Pope", last_name: "Francis", gender: "male" },
-	{ id: 40, first_name: "Mother", last_name: "Teresa", gender: "female" },
-	{ id: 41, first_name: "John F.", last_name: "Kennedy", gender: "male" },
-	{
-		id: 42,
-		first_name: "Martin Luther",
-		last_name: "King",
-		gender: "male",
-	},
-	{ id: 43, first_name: "Nelson", last_name: "Mandela", gender: "male" },
-	{
-		id: 44,
-		first_name: "Winston",
-		last_name: "Churchill",
-		gender: "male",
-	},
-	{ id: 45, first_name: "George", last_name: "Soros", gender: "male" },
-	{ id: 46, first_name: "Bill", last_name: "Gates", gender: "male" },
-	{ id: 47, first_name: "Muhammad", last_name: "Ali", gender: "male" },
-	{ id: 48, first_name: "Mahatma", last_name: "Gandhi", gender: "male" },
-	{
-		id: 49,
-		first_name: "Margaret",
-		last_name: "Thatcher",
-		gender: "female",
-	},
-	{
-		id: 40,
-		first_name: "Christopher",
-		last_name: "Columbus",
-		gender: "male",
-	},
-	{ id: 51, first_name: "Charles", last_name: "Darwin", gender: "male" },
-	{ id: 52, first_name: "Elvis", last_name: "Presley", gender: "male" },
-	{ id: 53, first_name: "Albert", last_name: "Einstein", gender: "male" },
-	{ id: 54, first_name: "Paul", last_name: "McCartney", gender: "male" },
-	{
-		id: 55,
-		first_name: "Queen",
-		last_name: "Victoria",
-		gender: "female",
-	},
-	{ id: 56, first_name: "Pope", last_name: "Francis", gender: "male" },
-];
-const columns = [
-	{
-		key: "id",
-		title: "ID",
-		value: (v: any) => v.id,
-		sortable: true,
-		searchValue: (v: any) => {
-			return v.id;
-		},
-	},
-	{
-		key: "first_name",
-		title: "FIRST_NAME",
-		value: (v: any) => v.first_name,
-		sortable: true,
-		searchValue: (v: any) => {
-			return v.first_name;
-		},
-		filterValue: (v: any) => v.first_name.charAt(0).toLowerCase(),
-		editable: true,
-	},
-	{
-		key: "last_name",
-		title: "LAST_NAME",
-		value: (v: any) => v.last_name,
-		sortable: true,
-		searchValue: (v: any) => v.last_name,
-		filterValue: (v: any) => v.last_name.charAt(0).toLowerCase(),
-		editable: true,
-	},
-	{
-		key: "gender",
-		title: "GENDER",
-		value: (v: any) => v.gender,
-		renderValue: (v: any) =>
-			v.gender.charAt(0).toUpperCase() + v.gender.substring(1), // capitalize
-		searchValue: (v: any) => v.gender,
-		sortable: true,
-	},
-];
+    //#endregion
+
+
+    //#region generators
+    function generateData():SimpleTransUnit[]{
+        let tempSimpleTransUnits: SimpleTransUnit[] = [];
+        for (let index = 1; index-1 < 100; index++) {
+            let currentTransUnit : SimpleTransUnit = {
+                trans_id : "id_" + index,
+                original_source: "source_" + index,
+                source: "source_" + index,
+                original_target: "target_" + index,
+                target: "target_" + index,
+                xliffNote: getRandomXliffNote(index),
+                notes: []
+            };
+            for (let index = 1; index - 1 < Math.floor(Math.random() * 20); index++) {
+                currentTransUnit.notes?.push({
+                    from: "from_" + index,
+                    value: "value_" + index
+                });
+            }
+            tempSimpleTransUnits.push(currentTransUnit);
+        }
+        return tempSimpleTransUnits;
+    }
+
+    function getRandomXliffNote(_index:number):string {
+        let xliffNote: string = "";
+        switch (Math.floor(Math.random() * 5 + 1)) {
+            case 1:
+                xliffNote =  "Table Tab_" + _index;
+                break;
+            case 2:
+                xliffNote =  "Page Pag_" + _index;
+                break;
+            case 3:
+                xliffNote =  "Codeunit Codeunit_" + _index;
+                break;
+            case 4:
+                xliffNote =  "XMLPort Xmlport_" + _index;
+                break;
+            case 5:
+                xliffNote =  "Report Report_" + _index;
+                break;
+            default:
+                break;
+        }
+        xliffNote += " - Field Field_" + _index + " - Property Prop_" + _index;
+        return xliffNote;
+    }
+    //#endregion
+
+    //#region handlers
+    function handleCancelButton(){
+        editedData = [];
+        data.map(
+            (value) => {
+                value.source = value.original_source; value.target = value.original_target});
+        data = data;
+    }
+
+    function handleSaveButton(){
+        // TODO to handle in vscode
+        alert("To handle")
+    }
+    //#endregion
 </script>
 
-<SvelteTable {columns} {rows} />
+<div class="container">
+    <div class="row header">
+        <div class="header-nav">
+            <!-- TODO: add a link to the store -->
+            <a class="link" href="TODO"><Icon iconName="extension" height={35} width={220}/></a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-secondary"
+                    disabled={editedData.length==0}
+                    on:click={() => handleSaveButton()}>Save</button>
+                <button type="button" class="btn btn-outline-secondary"
+                    disabled={editedData.length==0}
+                    on:click={() => handleCancelButton()}>Clear</button>
+            </div>
+        </div>
+    </div>
+    <div class="row body">
+        <Table columns={["Source", "Target"]}
+            bind:editedData={editedData}
+            bind:data={data}/>
+    </div>
+</div>
+
+<style>
+    .btn-outline-secondary:hover {
+        color: var(--vscode-foreground);
+        background-color: var(--vscode-button-background);
+        border-color: var(--vscode-button-background);
+    }
+    .btn-outline-secondary {
+        color: var(--vscode-foreground);
+        border-color: var(--vscode-button-background);
+    }
+    .container {
+        height: 835px;
+    }
+    .header {
+        align-items: center;
+        height: 7%;
+    }
+    .header-nav {
+        display: flex;
+        justify-content: space-between;
+    }
+    .link {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+    .body {
+        height: 93%;
+    }
+</style>
