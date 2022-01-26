@@ -3,6 +3,7 @@ import * as GenericFunctions from "../Functions/GenericFunctions";
 import * as xml2js from 'xml2js';
 import { Data, FileConfig, LanguageConfig } from "../types";
 import { Translation } from "../xliff-types";
+import { SimpleNote, SimpleTransUnit } from "../../webviews/sveltetable-types";
 
 /**
  * Track the main panel with the table for the translations
@@ -43,9 +44,15 @@ export class TranslatePanel {
 
     //     return p;
     // });
-    
+
+    // setTimeout(() => {
+    //   const data:Data = {type: "onSetup"};
+    //   this._panel.webview.postMessage(data);
+    // }, 5000);
+
+    this.loadFile();
     this.update();
-    this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
+    //this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
   }
 
   public static createOrShow(_extensionUri: vscode.Uri, _sourceFileChoosen?:FileConfig, _fileChosen?: FileConfig, _newFileLanguage?: LanguageConfig) {
@@ -110,6 +117,28 @@ export class TranslatePanel {
           var parser = new xml2js.Parser();          
           parser.parseString(textDocument.getText(),(err:any,translation:Translation) =>{
             // TODO : Complete the file reading
+            let simpleTransUnits: SimpleTransUnit[] = [];
+            translation.xliff.file[0].body[0].group[0]["trans-unit"].forEach(transUnit => {
+              let tempSimpleUnit:SimpleTransUnit = {
+                trans_id: transUnit.$.id,
+                original_source: transUnit.source,
+                source: transUnit.source,
+                original_target: transUnit.target,
+                target: transUnit.target,
+                notes: []
+              };
+              transUnit.note.forEach(note => {
+                if(note.$.from === "Xliff Generator"){
+                  tempSimpleUnit.xliffNote = note._;
+                } else {
+                  let tempSimpleNote: SimpleNote = {from:note.$.from, value: note._!};
+                  tempSimpleUnit.notes?.push(tempSimpleNote);
+                }
+              });
+              simpleTransUnits.push(tempSimpleUnit);
+            });
+            const data:Data = {type:"onSetup",simpleTransUnit:simpleTransUnits};
+            this._panel.webview.postMessage(data);
           });
         },(error) => {
           GenericFunctions.showError(error);

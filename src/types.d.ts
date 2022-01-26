@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { SimpleTransUnit } from '../webviews/sveltetable-types';
 import { Translation } from './xliff-types';
 
 type Data = {
@@ -6,6 +7,7 @@ type Data = {
     fileList?: FileConfig[],
     languagesList?: LanguageConfig[]
     newFileLanguage?: LanguageConfig,
+    simpleTransUnit?: SimpleTransUnit[],
     sourceFileChoosen?: FileConfig,
     sourceFileTranslation?: Translation,
     type: DataType,

@@ -5,7 +5,7 @@
     import type { SimpleTransUnit } from "../sveltetable-types";
     import type { Data } from "../../src/types";
 
-    let data:SimpleTransUnit[] = generateData();
+    let dataTrans:SimpleTransUnit[] = []
     let editedData: SimpleTransUnit[] = [];
 
     //#region events
@@ -15,12 +15,14 @@
             switch (data.type) {
 				case "onSetup":
 					// TODO : setup to readfile
+                    dataTrans = data.simpleTransUnit!;
 					break;
 			}
 		});
 	});
     //#endregion
 
+    console.log("svelte-translation-load");
 
     //#region generators
     function generateData():SimpleTransUnit[]{
@@ -75,10 +77,10 @@
     //#region handlers
     function handleCancelButton(){
         editedData = [];
-        data.map(
+        dataTrans.map(
             (value) => {
                 value.source = value.original_source; value.target = value.original_target});
-        data = data;
+        dataTrans = dataTrans;
     }
 
     function handleSaveButton(){
@@ -106,7 +108,7 @@
     <div class="row body">
         <Table columns={["Source", "Target"]}
             bind:editedData={editedData}
-            bind:data={data}/>
+            bind:data={dataTrans}/>
     </div>
 </div>
 
